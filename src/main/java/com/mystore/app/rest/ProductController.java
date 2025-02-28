@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/products")
@@ -59,16 +57,31 @@ public class ProductController {
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
-    // TODO: API to search products by name
+    // Search products by name
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProducts(@RequestParam String name) {
+        List<Product> products = productService.searchProductsByName(name);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
+    // Filter products by category
+    @GetMapping("/filter/category")
+    public ResponseEntity<List<Product>> filterByCategory(@RequestParam String category) {
+        List<Product> products = productService.filterProductsByCategory(category);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
-    // TODO: API to filter products by category
+    // Filter products by price range
+    @GetMapping("/filter/price")
+    public ResponseEntity<List<Product>> filterByPriceRange(@RequestParam Double minPrice, @RequestParam Double maxPrice) {
+        List<Product> products = productService.filterProductsByPriceRange(minPrice, maxPrice);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 
-
-    // TODO: API to filter products by price range
-
-
-    // TODO: API to filter products by stock quantity range
-
-
+    // Filter products by stock quantity range
+    @GetMapping("/filter/stock")
+    public ResponseEntity<List<Product>> filterByStock(@RequestParam Integer minStock, @RequestParam Integer maxStock) {
+        List<Product> products = productService.filterProductsByStockQuantityRange(minStock, maxStock);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }
